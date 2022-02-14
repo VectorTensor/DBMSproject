@@ -42,6 +42,11 @@ def IsUser(Name,password):
 	con.close()	
 	return False
 
+def AddProject(Name,Description):
+	con= sqlite3.connect('WonderOfU.db')
+	con.execute(""" insert into Project(Name,Description) values(:name,:description)""",{"name":Name,"description":Description})
+	con.commit()
+	con.close()
 
 
 def drop():
