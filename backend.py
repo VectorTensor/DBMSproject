@@ -1,5 +1,6 @@
 # backend code goes here 
 import sqlite3
+from datetime import date
 
 
 
@@ -20,27 +21,15 @@ def insertUser(Name,password):
 	con.commit()
 	con.close()	
 
-	# call this method to check the credentials	
-def IsUser(Name,password):
-	con = sqlite3.connect("WonderOfU.db")
-	datas=con.execute("""SELECT * from Programmer where Name=:name""",{"name":Name})
-	x=(list(datas))
+def AddLog(Log, project, author):
+	con = sqlite3.connect('WonderOfU.db')
+	today = date.today()
 
-	
-	if (len(x)>0):
-
-		for data in x:
-		
-			if (data[2]== password):
-
-				con.commit()
-				con.close()	
-# Set name 
-				return True
-	
+	d1 = today.strftime("%d/%m/%Y")
+	con.execute(""" INSERT INTO Log values(:dates,:project,:log,:author)""",{"dates":d1,"project":project,"log":Log,"author":author})
 	con.commit()
-	con.close()	
-	return False
+	con.close()
+
 
 def AddProject(Name,Description):
 	con= sqlite3.connect('WonderOfU.db')
@@ -48,6 +37,30 @@ def AddProject(Name,Description):
 	con.commit()
 	con.close()
 
+#edit this function to display log for specific project along with the programmer name using join
+def ShowLogs():
+	con= sqlite3.connect('WonderOfU.db')
+	data = con.execute('''Select  from Log''' ).fetchall()
+	#data = list(data)
+	con.commit()
+	con.close()
+	return data
+
+def ShowProgrammers():
+	con= sqlite3.connect('WonderOfU.db')
+	data =con.execute('''Select * from Programmer''' ).fetchall()
+	#data = list(data)
+	con.commit()
+	con.close()
+	return data
+
+def ShowProjects():
+	con= sqlite3.connect('WonderOfU.db')
+	data = con.execute('''Select * from Project''' ).fetchall()
+	#data = list(data)
+	con.commit()
+	con.close()
+	return data
 
 def drop():
 	con= sqlite3.connect('WonderOfU.db')
@@ -58,12 +71,6 @@ def drop():
 	con.close()
 
 
-
-def insert():
-	con=sqlite3.connect('WonderOfU.db')
-	con.execute('''insert into Project values('Praysdhif',5,'dfasfsd')''')
-	con.commit()
-	con.close()
 
 
 

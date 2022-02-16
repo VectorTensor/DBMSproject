@@ -2,6 +2,14 @@ from backend import *
 
 create()
 
-AddProject("IOEoverflow","this is the project")
+insertUser("prayhas","dafsd")
+AddProject("dfsafd","uwerypeyw")
+AddLog("demo log", 1,1)
+
+print(ShowProjects())
+
+print(ShowLogs())
+
+print(ShowProgrammers())
 x=input()
 drop()
