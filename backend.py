@@ -38,9 +38,9 @@ def AddProject(Name,Description):
 	con.close()
 
 #edit this function to display log for specific project along with the programmer name using join
-def ShowLogs():
+def ShowLogs(project):
 	con= sqlite3.connect('WonderOfU.db')
-	data = con.execute('''Select  from Log''' ).fetchall()
+	data = con.execute('''Select  Log.DOR,Log.Log,Programmer.Name from Log join Project on Log.Project_id=Project.id join Programmer on Log.Author_id=Programmer.id where Project.id=:project  ''',{"project":project} ).fetchall()
 	#data = list(data)
 	con.commit()
 	con.close()

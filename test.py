@@ -6,10 +6,9 @@ insertUser("prayhas","dafsd")
 AddProject("dfsafd","uwerypeyw")
 AddLog("demo log", 1,1)
 
-print(ShowProjects())
 
-print(ShowLogs())
 
-print(ShowProgrammers())
-x=input()
+print(ShowLogs(1))
+x= input()
+
 drop()
