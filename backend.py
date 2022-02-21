@@ -2,8 +2,6 @@
 import sqlite3
 
 
-
-
 def create():
 	# This creates the tables
 	con = sqlite3.connect('WonderOfU.db')
@@ -12,6 +10,7 @@ def create():
 	con.execute('''CREATE TABLE Programmer(Name varchar, id INTEGER PRIMARY KEY AUTOINCREMENT, password varchar)''')
 	con.commit()
 	con.close()
+
 
 def insertUser(Name,password):
 	# This method creates a new user 
@@ -56,7 +55,6 @@ def drop():
 	con.execute('''drop table Log''' )
 	con.commit()
 	con.close()
-
 
 
 def insert():
