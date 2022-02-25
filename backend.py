@@ -9,7 +9,7 @@ def create():
 	# This creates the tables
 	con = sqlite3.connect('WonderOfU.db')
 	con.execute('''CREATE TABLE Project (Name varchar,id INTEGER PRIMARY KEY AUTOINCREMENT,Description varchar)''')
-	con.execute('''CREATE TABLE Log(DOR date,Project_id int,Log varchar, Author_id int )''')
+	con.execute('''CREATE TABLE Log(DOR date,Project_id int,Log varchar, Author_id int,id INTEGER PRIMARY KEY AUTOINCREMENT )''')
 	con.execute('''CREATE TABLE Programmer(Name varchar, id INTEGER PRIMARY KEY AUTOINCREMENT, password varchar)''')
 	con.commit()
 	con.close()
@@ -26,7 +26,7 @@ def AddLog(Log, project, author):
 	today = date.today()
 
 	d1 = today.strftime("%d/%m/%Y")
-	con.execute(""" INSERT INTO Log values(:dates,:project,:log,:author)""",{"dates":d1,"project":project,"log":Log,"author":author})
+	con.execute(""" INSERT INTO Log(DOR,Project_id,Log,Author_id) values(:dates,:project,:log,:author)""",{"dates":d1,"project":project,"log":Log,"author":author})
 	con.commit()
 	con.close()
 
@@ -61,6 +61,21 @@ def ShowProjects():
 	con.commit()
 	con.close()
 	return data
+
+def DeleteLog(id):
+	con = sqlite3.connect('WonderOfU.db')
+	con.execute("""delete from Log where  id=:id""",{"id":id})
+	con.commit()
+	con.close()
+
+
+def UpdateUser(id,name,password):
+	con = sqlite3.connect('WonderOfU.db')
+	con.execute("""Update Programmer set Name=:name,password=:password where id=:id""",{"name":name,"password":password,"id":id} )
+	con.commit()
+	con.close()
+
+
 
 def drop():
 	con= sqlite3.connect('WonderOfU.db')
