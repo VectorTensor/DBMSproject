@@ -7,20 +7,19 @@ def create():
     # This creates the tables
     con = sqlite3.connect('WonderOfU.db')
     con.execute(
-        '''CREATE TABLE Project (Name varchar,id INTEGER PRIMARY KEY AUTOINCREMENT,Description varchar)''')
+        '''CREATE TABLE Project (Name varchar,id INTEGER PRIMARY KEY AUTOINCREMENT,Description varchar,remark varchar)''')
+    con.execute('''CREATE TABLE Log(DOR date,Project_id INTEGER,Log varchar, Author_id INTEGER,id INTEGER PRIMARY KEY AUTOINCREMENT )''')
     con.execute(
-        '''CREATE TABLE Log(DOR date,Project_id int,Log varchar, Author_id int )''')
-    con.execute(
-        '''CREATE TABLE Programmer(Name varchar, id INTEGER PRIMARY KEY AUTOINCREMENT, password varchar)''')
+        '''CREATE TABLE Programmer(Name varchar, id INTEGER PRIMARY KEY AUTOINCREMENT, password varchar,address varchar)''')
     con.commit()
     con.close()
 
 
-def insertUser(Name, password):
+def insertUser(Name, password, address):
     # This method creates a new user
     con = sqlite3.connect('WonderOfU.db')
-    con.execute("""INSERT INTO Programmer(Name,password) values(:name,:password)""", {
-                "name": Name, "password": password})
+    con.execute("""INSERT INTO Programmer(Name,password,address) values(:name,:password,:address)""", {
+                "name": Name, "password": password, "address": address})
     con.commit()
     con.close()
 
@@ -30,20 +29,18 @@ def AddLog(Log, project, author):
     today = date.today()
 
     d1 = today.strftime("%d/%m/%Y")
-    con.execute(""" INSERT INTO Log values(:dates,:project,:log,:author)""", {
+    con.execute(""" INSERT INTO Log(DOR,Project_id,Log,Author_id) values(:dates,:project,:log,:author)""", {
                 "dates": d1, "project": project, "log": Log, "author": author})
     con.commit()
     con.close()
 
 
-def AddProject(Name, Description):
+def AddProject(Name, Description, remark):
     con = sqlite3.connect('WonderOfU.db')
-    con.execute(""" insert into Project(Name,Description) values(:name,:description)""", {
-                "name": Name, "description": Description})
+    con.execute(""" insert into Project(Name,Description,remark) values(:name,:description,:remark)""", {
+                "name": Name, "description": Description, "remark": remark})
     con.commit()
     con.close()
-
-# edit this function to display log for specific project along with the programmer name using join
 
 
 def ShowLogs(project):
@@ -81,6 +78,21 @@ def ShowLogInfo():
     con.commit()
     con.close()
     return data
+
+
+def DeleteLog(id):
+    con = sqlite3.connect('WonderOfU.db')
+    con.execute("""delete from Log where  id=:id""", {"id": id})
+    con.commit()
+    con.close()
+
+
+def UpdateUser(id, name, password, address):
+    con = sqlite3.connect('WonderOfU.db')
+    con.execute("""Update Programmer set Name=:name,password=:password,address=:address where id=:id""", {
+                "name": name, "password": password, "id": id, "address": address})
+    con.commit()
+    con.close()
 
 
 def drop():

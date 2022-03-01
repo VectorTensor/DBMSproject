@@ -48,5 +48,12 @@ returns list of Projects
 
 [(name,id,description)]
 
+DeleteLog(id)
 
+deletes the log of the respected id from log table
+
+
+UpdateUser(id,name,password)
+
+Updates the user information supplied by name and password of the given id from Programmer table
 

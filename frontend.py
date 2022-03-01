@@ -56,7 +56,10 @@ class Programmer:
         self.Password = StringVar()
         self.ProjectName = StringVar()
         self.AuthorName = StringVar()
-        self.InsertId = StringVar()
+        self.Adress = StringVar()
+        self.SearchId = StringVar()
+        self.ProjectId = StringVar()
+        self.UserId = StringVar()
 
         lbltitle = Label(self.root, bd=20, relief=RIDGE, text="PROGRAMMER'S LOG SYSTEM",
                          fg="red", bg="white", font=("times new roman", 50, "bold"))
@@ -109,18 +112,32 @@ class Programmer:
                         font=("arial", 12, "bold"), width=35)
         txtPass.grid(row=2, column=1)
 
+        lblAdress = Label(Dataframeleft, font=("arial", 12, "bold"),
+                          text="Address", padx=2, pady=6)
+        lblAdress.grid(row=3, column=0, sticky=W)
+        txtAdress = Entry(Dataframeleft, textvariable=self.Adress, font=(
+            "arial", 12, "bold"), width=35)
+        txtAdress.grid(row=3, column=1)
+
+        lblidUpdate = Label(Dataframeleft, font=("arial", 12, "bold"),
+                            text="User ID", padx=2, pady=6)
+        lblidUpdate.grid(row=6, column=0, sticky=W)
+        txtlblidSearch = Entry(Dataframeleft, textvariable=self.UserId, font=(
+            "arial", 12, "bold"), width=20)
+        txtlblidSearch.grid(row=6, column=1)
+
         # ===================================Datafrmae Right===============================
         lblAuthorName = Label(DataFrameRight, font=("arial", 12, "bold"),
-                              text="AuthorName", padx=2, pady=6)
+                              text="AuthorId", padx=2, pady=6)
         lblAuthorName.grid(row=0, column=0, sticky=W)
         txtAuthorName = Entry(DataFrameRight, textvariable=self.AuthorName, font=(
             "arial", 12, "bold"), width=25)
         txtAuthorName.grid(row=0, column=1)
 
         lblNameProj = Label(DataFrameRight, font=("arial", 12, "bold"),
-                            text="ProjectName", padx=2, pady=6)
+                            text="ProjectId", padx=2, pady=6)
         lblNameProj.grid(row=1, column=0, sticky=W)
-        txtNameProj = Entry(DataFrameRight, textvariable=self.ProjectName, font=(
+        txtNameProj = Entry(DataFrameRight, textvariable=self.ProjectId, font=(
             "arial", 12, "bold"), width=25)
         txtNameProj.grid(row=1, column=1)
 
@@ -146,34 +163,40 @@ class Programmer:
             "arial", 12, "bold"), width=30, height=5, padx=2, pady=6)
         self.projDesc.grid(row=2, column=1)
 
+        lblProjRem = Label(DataFrameMid, font=("arial", 12, "bold"),
+                           text="Remarks", padx=2, pady=6)
+        lblProjRem.grid(row=3, column=0, sticky=W)
+        self.projRem = Text(DataFrameMid, font=(
+            "arial", 12, "bold"), width=30, height=3, padx=2, pady=6)
+        self.projRem.grid(row=3, column=1)
+
         # ===================================Buttons Fields ==============================
         btnProgrammersInfo = Button(Dataframeleft, command=self.iProgrammersInfo, text="Insert", bg='green', fg='white', font=(
             "arial", 12, "bold"), width=10, height=0, padx=2, pady=6)
-        btnProgrammersInfo.grid(row=10, column=0)
+        btnProgrammersInfo.grid(row=4, column=0)
 
         btnProgrammerInfoShow = Button(Dataframeleft, command=self.displayProgrammer, text="Info", bg='green', fg='white', font=(
             "arial", 12, "bold"), width=10, height=0, padx=2, pady=6)
-        btnProgrammerInfoShow.grid(row=10, column=1)
+        btnProgrammerInfoShow.grid(row=4, column=1)
 
-        btnLogInfo = Button(Buttonframe, text="LogInfo", bg='green', fg='white', font=(
+        btnUpdate = Button(Dataframeleft, text="Update", command=self.updateUser, bg='green', fg='white', font=(
             "arial", 12, "bold"), width=21, height=1, padx=2, pady=6)
-        btnLogInfo.grid(row=0, column=1)
+        btnUpdate.grid(row=7, column=1)
 
-        btnUpdate = Button(Buttonframe, text="Update", bg='green', fg='white', font=(
-            "arial", 12, "bold"), width=21, height=1, padx=2, pady=6)
-        btnUpdate.grid(row=0, column=2)
-
-        btnDelete = Button(Buttonframe, text="Delete", bg='green', fg='white', font=(
+        btnDelete = Button(Buttonframe, text="Delete", command=self.iDelete, bg='green', fg='white', font=(
             "arial", 12, "bold"), width=21, height=1, padx=2, pady=6)
         btnDelete.grid(row=0, column=3)
 
-        btnClear = Button(Buttonframe, text="Clear", bg='green', fg='white', font=(
-            "arial", 12, "bold"), width=21, height=1, padx=2, pady=6)
-        btnClear.grid(row=0, column=4)
+        lblidSearch = Label(Buttonframe, font=("arial", 12, "bold"),
+                            text="Project ID", padx=2, pady=6)
+        lblidSearch.grid(row=2, column=0, sticky=W)
+        txtlblidSearch = Entry(Buttonframe, textvariable=self.SearchId, font=(
+            "arial", 12, "bold"), width=20)
+        txtlblidSearch.grid(row=2, column=1)
 
-        btnExit = Button(Buttonframe, text="Exit", bg='green', fg='white', font=(
+        btnSearch = Button(Buttonframe, text="Search", command=self.joinLog, bg='green', fg='white', font=(
             "arial", 12, "bold"), width=21, height=1, padx=2, pady=6)
-        btnExit.grid(row=0, column=5)
+        btnSearch.grid(row=3, column=0)
 
         btnProjInfo = Button(DataFrameMid, text="Insert", command=self.iProjectInfo, bg='green', fg='white', font=(
             "arial", 12, "bold"), width=10, height=0, padx=2, pady=6)
@@ -199,23 +222,25 @@ class Programmer:
     def iProgrammersInfo(self):
         name = self.NameOfProgrammers.get()
         password = self.Password.get()
+        address = self.Adress.get()
         print(self.NameOfProgrammers.get())
         print(self.Password.get())
-        backend.insertUser(name, password)
-        root1 = Tk()
-        ob1 = Display(root1, "Name", "ID")
+        print(address)
+        backend.insertUser(name, password, address)
 
     def iProjectInfo(self):
         projName = self.ProjectName.get()
         projDesc = self.projDesc.get("1.0", END)
+        projRemarks = self.projRem.get('1.0', END)
         print(projName)
         print(projDesc)
-        backend.AddProject(projName, projDesc)
+        print(projRemarks)
+        backend.AddProject(projName, projDesc, projRemarks)
 
     def iLogInfo(self):
         authorName = self.AuthorName.get()
         projLog = self.textLog.get("1.0", END)
-        projName = self.ProjectName.get()
+        projName = self.ProjectId.get()
         print(authorName)
         print(projLog)
         print(projName)
@@ -225,13 +250,14 @@ class Programmer:
         data = backend.ShowProgrammers()
         print(data)
         root1 = Tk()
-        ob1 = Display(root1, data, "Name", "ID", "Password")
+        ob1 = Display(root1, data, "Name", "ID", "Password", "Address")
 
     def displayProject(self):
         data = backend.ShowProjects()
         print(data)
         root1 = Tk()
-        ob1 = Display(root1, data, "ProjectName", "Project_ID", "Description")
+        ob1 = Display(root1, data, "ProjectName",
+                      "Project_ID", "Description", "Remarks")
 
     def displayLog(self):
         data = backend.ShowLogInfo()
@@ -241,14 +267,25 @@ class Programmer:
                       "Project_ID", "Log", "Author_ID")
 
     def joinLog(self):
-        id = self.InsertId.get()
+        id = self.SearchId.get()
         data = backend.ShowLogs(id)
         print(data)
         root1 = Tk()
         ob1 = Display(root1, data, "Log Date",
                       "Log", "Programmer Name")
 
+    def iDelete(self):
+        backend.drop()
+
+    def updateUser(self):
+        userId = self.UserId.get()
+        name = self.NameOfProgrammers.get()
+        password = self.Password.get()
+        address = self.Adress.get()
+        backend.UpdateUser(userId, name, password, address)
+
 
 root = Tk()
 ob = Programmer(root)
 root.mainloop()
+
