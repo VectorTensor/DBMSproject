@@ -1,0 +1,52 @@
+backend library docs
+
+1)insertUser(Name,password) 
+
+This method add a user into the Programmer table
+Name -> name of the user(string)
+password -> password for the user (just for show doesn't have a login system) (string)
+
+2)AddLog(Log, project, author)
+
+This method Adds a log into the Log table
+
+Log-> write your report (string)
+project -> pass project's id(int)
+author -> pass programmer's id(int)
+
+
+3)AddProject(Name,Description)
+
+Adds project into the project table
+
+Name -> Name of the project (string)
+
+Description -> Description of the project (string)
+
+
+ShowLogs(project):
+
+Displays all the logs of the provided projects
+
+project -> pass project id (int)
+
+returns list of all the logs 
+
+[(Date,Log,Author)]
+
+
+ShowProgrammers()
+
+returns list of Programmers
+
+[(name,id,password)]
+
+
+
+ShowProjects()
+returns list of Projects
+
+[(name,id,description)]
+
+
+
